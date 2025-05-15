@@ -5,7 +5,7 @@
 
 #define MAX_STUDENTS 1000
 #define SUBJECTS 5
-#define ADMIN_PASS "admin123"
+#define ADMIN_PASS "admin1234"
 #define STUDENT_PASS_DEFAULT "student"
 #define WORKING_DAYS 22 // per month
 
