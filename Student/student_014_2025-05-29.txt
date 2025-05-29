@@ -1,0 +1,8 @@
+=== STUDENT RECORD ===
+ID: 014
+Name: Mushan
+Email: Mushan14@gmail.com
+Faculty: Eng
+Department: Civil
+GPA: 0.00
+Date Created: 2025-05-29

@@ -1,0 +1,7 @@
+=== LECTURER RECORD ===
+ID: 0
+Name: 
+Email: 0
+Faculty: 0
+Department: 0
+Date Created: 2025-05-29

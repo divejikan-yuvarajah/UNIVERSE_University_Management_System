@@ -1,0 +1,7 @@
+=== LECTURER RECORD ===
+ID: Lec_T_2016
+Name: ADNT.Kumara
+Email: adntkumara@seu.ac.lk
+Faculty: Technology
+Department: BST
+Date Created: 2025-05-29

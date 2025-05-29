@@ -1,0 +1,7 @@
+=== LECTURER RECORD ===
+ID: Lec_T_2003
+Name: Muhammad Rifthy
+Email: kmr@seu.ac.lk
+Faculty: Technology
+Department: ICT
+Date Created: 2025-05-29

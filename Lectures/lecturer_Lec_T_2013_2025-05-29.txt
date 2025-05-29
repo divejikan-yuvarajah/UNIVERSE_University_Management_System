@@ -1,0 +1,7 @@
+=== LECTURER RECORD ===
+ID: Lec_T_2013
+Name: Musthafa
+Email: muneeb@seu.ac.lk
+Faculty: Technology
+Department: BST
+Date Created: 2025-05-29

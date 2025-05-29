@@ -1,0 +1,8 @@
+=== COURSE RECORD ===
+Code: NST12012
+Name: Networking
+Credits: 2
+Lecturer ID: Lec_T_2003
+Faculty: Technology
+Department: ICT
+Date Created: 2025-05-28

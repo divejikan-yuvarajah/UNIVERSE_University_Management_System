@@ -1,0 +1,8 @@
+=== COURSE RECORD ===
+Code: CMS12012
+Name: Statistics
+Credits: 2
+Lecturer ID: Lec_T_2006
+Faculty: Technology
+Department: ICT
+Date Created: 2025-05-28

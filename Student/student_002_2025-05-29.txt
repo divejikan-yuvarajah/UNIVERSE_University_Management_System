@@ -1,0 +1,8 @@
+=== STUDENT RECORD ===
+ID: 002
+Name: Anshaf
+Email: anshaf02@gmail.com
+Faculty: Arts
+Department: Arts
+GPA: 0.00
+Date Created: 2025-05-29

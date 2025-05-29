@@ -1,0 +1,8 @@
+=== COURSE RECORD ===
+Code: 0
+Name: 0
+Credits: 1
+Lecturer ID: 1
+Faculty: 1
+Department: 1
+Date Created: 2025-05-28

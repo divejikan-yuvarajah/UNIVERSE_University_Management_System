@@ -1,0 +1,8 @@
+=== COURSE RECORD ===
+Code: CMS12022
+Name: English II
+Credits: 1
+Lecturer ID: Lec_T_2007
+Faculty: Technology
+Department: ICT
+Date Created: 2025-05-28

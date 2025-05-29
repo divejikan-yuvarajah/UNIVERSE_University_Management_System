@@ -1,0 +1,8 @@
+=== STUDENT RECORD ===
+ID: 005
+Name: Hafsa
+Email: Hafsa05@gmail.com
+Faculty: Arts
+Department: FIA
+GPA: 0.00
+Date Created: 2025-05-29

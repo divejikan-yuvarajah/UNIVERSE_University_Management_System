@@ -1,0 +1,8 @@
+=== COURSE RECORD ===
+Code: CIS11051
+Name: Practical for Database
+Credits: 1
+Lecturer ID: Lec_T_2011
+Faculty: Technology
+Department: ICT
+Date Created: 2025-05-28

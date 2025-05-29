@@ -1,0 +1,19 @@
+Lec_T_2001,Rifai Kariapper,rk@seu.ac.lk,Technology,ICT
+Lec_T_2002,Abdul Haleem,ahaleems@seu.ac.lk,Technology,ICT
+Lec_T_2003,Muhammad Rifthy,kmr@seu.ac.lk,Technology,ICT
+Lec_T_2004,Ahamed Sabani,mjasabani@seu.ac.lk,Technology,ICT
+Lec_T_2005,Pirapuraj,pirapuraj@seu.ac.lk,Technology,ICT
+Lec_T_2006,Shafana,zainshareef@seu.ac.lk,Technology,ICT
+,,,,
+Lec_T_2007,Kalith,imkalith@seu.ac.lk,Technology,ICT
+Lec_T_2008,Fathima Shafana,arfshafana@seu.ac.lk,Technology,ICT
+Lec_T_2009,Fathima Musfira,ameermusfi@seu.ac.lk,Technology,ICT
+Lec_T_2010,Fathima Sharfana,sharfana@seu.ac.lk,Technology,ICT
+Lec_T_2011,Sujah,ameersujah@seu.ac.lk,Technology,ICT
+Lec_T_2012,Razeeth,razeethsuhail@seu.ac.lk,Technology,ICT
+Lec_T_2013,Musthafa,muneeb@seu.ac.lk,Technology,BST
+Lec_T_2014,Mohamed Thariq,mgmthariq@seu.ac.lk,Technology,BST
+Lec_T_2015,Abdul Majeed,ulmajeed@seu.ac.lk,Technology,BST
+Lec_T_2016,ADNT.Kumara,adntkumara@seu.ac.lk,Technology,BST
+Lec_T_2017,ANM.Mubarak,anmubarak@seu.ac.lk,Technology,BST
+Lec_T_2018,Fathima Jemziya,jemziya@seu.ac.lk,Technology,BST

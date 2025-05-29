@@ -1,0 +1,8 @@
+=== COURSE RECORD ===
+Code: CIS12012
+Name: Social Computing
+Credits: 2
+Lecturer ID: Lec_T_2005
+Faculty: Technology
+Department: ICT
+Date Created: 2025-05-28

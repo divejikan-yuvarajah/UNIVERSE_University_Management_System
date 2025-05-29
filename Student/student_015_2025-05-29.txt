@@ -1,0 +1,8 @@
+=== STUDENT RECORD ===
+ID: 015
+Name: Archana
+Email: Archana15@gmail.com
+Faculty: Arts
+Department: Arts
+GPA: 0.00
+Date Created: 2025-05-29

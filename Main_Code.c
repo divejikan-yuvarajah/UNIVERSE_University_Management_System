@@ -1030,6 +1030,43 @@ void enter_marks() {
     save_grades(grades, n);
     printf("Marks and grade entered. Grade: %c\n", g.grade);
 }
+// Grade Management Functions
+void add_grade() {
+    // ... existing add_grade code ...
+}
+
+void view_grades() {
+    Grade grades[MAX_GRADES];
+    int n = load_grades(grades, MAX_GRADES);
+
+    if (n == 0) {
+        printf("\n+--------------------------------------+\n");
+        printf("|           No grades found!           |\n");
+        printf("+--------------------------------------+\n");
+        return;
+    }
+
+    printf("\n+============+=============+==========+==========+=======+\n");
+    printf("|                        GRADE RECORDS                   |\n");
+    printf("+============+=============+==========+==========+=======+\n");
+    printf("| Student ID | Course Code | Semester |   Marks  | Grade |\n");
+    printf("+============+=============+==========+==========+=======+\n");
+
+    for (int i = 0; i < n; i++) {
+        printf("| %-10s | %-11s |    %2d    |   %.2f   |   %c   |\n",
+               grades[i].student_id,
+               grades[i].course_code,
+               grades[i].semester,
+               grades[i].marks,
+               grades[i].grade);
+    }
+
+    printf("+============+=============+==========+==========+=======+\n");
+    printf("Total Grades: %d\n\n", n);
+}
+
+// Continue with other grade functions...
+
 
 // =================== GPA CALCULATOR ===================
 

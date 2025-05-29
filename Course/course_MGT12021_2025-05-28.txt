@@ -1,0 +1,8 @@
+=== COURSE RECORD ===
+Code: MGT12021
+Name: Practical of Multimedia
+Credits: 2
+Lecturer ID: Lec_T_2010
+Faculty: Technology
+Department: ICT
+Date Created: 2025-05-28

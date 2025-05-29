@@ -1,0 +1,8 @@
+=== STUDENT RECORD ===
+ID: 012
+Name: Shahithiyan
+Email: Shahithiyan12@mail.com
+Faculty: Arts
+Department: Arts
+GPA: 0.00
+Date Created: 2025-05-29

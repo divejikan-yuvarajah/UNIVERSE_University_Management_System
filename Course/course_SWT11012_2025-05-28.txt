@@ -1,0 +1,8 @@
+=== COURSE RECORD ===
+Code: SWT11012
+Name: Fundamental of Programming
+Credits: 2
+Lecturer ID: Lec_T_2002
+Faculty: Technology
+Department: ICT
+Date Created: 2025-05-28

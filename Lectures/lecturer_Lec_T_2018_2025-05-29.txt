@@ -1,0 +1,7 @@
+=== LECTURER RECORD ===
+ID: Lec_T_2018
+Name: Fathima Jesmiya
+Email: 
+Faculty: 
+Department: 0
+Date Created: 2025-05-29

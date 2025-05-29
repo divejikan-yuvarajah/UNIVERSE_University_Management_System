@@ -1,0 +1,8 @@
+=== COURSE RECORD ===
+Code: CMS12031
+Name: Practical for Statistics
+Credits: 1
+Lecturer ID: Lec_T_20011
+Faculty: Technology
+Department: ICT
+Date Created: 2025-05-28

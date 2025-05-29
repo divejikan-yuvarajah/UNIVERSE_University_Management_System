@@ -1,0 +1,8 @@
+=== STUDENT RECORD ===
+ID: 009
+Name: Lavanya
+Email: Lavanya09@gmail.com
+Faculty: Arts
+Department: Arts
+GPA: 0.00
+Date Created: 2025-05-29

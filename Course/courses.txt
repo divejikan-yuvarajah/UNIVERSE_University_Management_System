@@ -1,0 +1,22 @@
+CIS11011,Essentials of ICT,1,Lec_T_2001,Technology,ICT
+SWT11012,Programming,2,Lec_T_2002,Technology,ICT
+CIS11022,Database Design,2,Lec_T_2003,Technology,ICT
+CIS11032,Logic Design,2,Lec_T_2004,Technology,ICT
+CMS11012,Mathematics,2,Lec_T_2005,Technology,ICT
+CMS11022,English I,2,Lec_T_2006,Technology,ICT
+CMS11031,Tamil,1,Lec_T_2007,Technology,ICT
+CMS11041,Sinhala,1,Lec_T_2008,Technology,ICT
+CIS11042,Practical for ICT,2,Lec_T_2009,Technology,ICT
+SWT11022,Practical of Programm,2,Lec_T_2010,Technology,ICT
+CIS11051,Practical for Database,1,Lec_T_2011,Technology,ICT
+SWT12012,O.O.P,2,Lec_T_2001,Technology,ICT
+SWT12022,Web System,2,Lec_T_2002,Technology,ICT
+NST12012,Networking,2,Lec_T_2003,Technology,ICT
+MGT12012,Multimedia,2,Lec_T_2004,Technology,ICT
+CIS12012,Social Computing,2,Lec_T_2005,Technology,ICT
+CMS12012,Statistics,2,Lec_T_2006,Technology,ICT
+CMS12022,English II,1,Lec_T_2007,Technology,ICT
+SWT12031,Practical of O.O.P,1,Lec_T_2008,Technology,ICT
+SWT12041,Practical of Websystem,1,Lec_T_2009,Technology,ICT
+MGT12021,Practical of Multimedia,1,Lec_T_2010,Technology,ICT
+CMS12031,Practical of Statistics,1,Lec_T_2011,Technology,ICT

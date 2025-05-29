@@ -1,0 +1,8 @@
+=== STUDENT RECORD ===
+ID: 011
+Name: Prabahath
+Email: Prabahath11@gmail.com
+Faculty: Commerce
+Department: MIT
+GPA: 0.00
+Date Created: 2025-05-29
