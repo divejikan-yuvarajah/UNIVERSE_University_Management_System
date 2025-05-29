@@ -1,12 +1,6 @@
 /*
     University Management System in C
-    - Modular, menu-driven, role-based access
-    - File handling (binary/text) for persistent storage
-    - Basic password encryption (Caesar cipher)
-    - Clear terminal UI, input validation, and immediate data saving
-    - Features: Login, Student/Lecturer/Course/Faculty/Attendance/Grades/Transcript/Analytics/Backup/Restore/Notifications/Dark Mode
-    - All credentials and constants defined via #define
-    - All data auto-saved after each operation
+
 */
 
 #include <stdio.h>
@@ -48,13 +42,15 @@
 #define LECTURER1_PASS "lec123"
 
 // File names
-#define STUDENT_FILE "students.dat"
-#define LECTURER_FILE "lecturers.dat"
+// Change these file names from .dat to .txt
+#define STUDENT_FILE "students.txt"
+#define LECTURER_FILE "lecturers.txt"
+#define COURSE_FILE "courses.txt"
+#define GRADE_FILE "grades.txt"
+#define ATTENDANCE_FILE "attendance.txt"
 #define FACULTY_FILE "faculties.txt"
-#define COURSE_FILE "courses.dat"
-#define GRADE_FILE "grades.dat"
-#define ATTENDANCE_FILE "attendance.dat"
 #define NOTICE_FILE "notices.txt"
+
 #define BACKUP_FOLDER "backup/"
 
 // ANSI color codes for dark/light mode
@@ -211,53 +207,152 @@ int confirm(const char *msg) {
     while (getchar() != '\n');
     return (c == 'y' || c == 'Y');
 }
+// Auto-save function that creates individual files for each entry
+void auto_save_entry(const char* type, const void* data) {
+    char filename[100];
+    char timestamp[20];
+    get_current_date(timestamp);
+
+    if (strcmp(type, "student") == 0) {
+        Student* s = (Student*)data;
+        sprintf(filename, "student_%s_%s.txt", s->id, timestamp);
+        FILE *fp = fopen(filename, "w");
+        if (fp) {
+            fprintf(fp, "=== STUDENT RECORD ===\n");
+            fprintf(fp, "ID: %s\n", s->id);
+            fprintf(fp, "Name: %s\n", s->name);
+            fprintf(fp, "Email: %s\n", s->email);
+            fprintf(fp, "Faculty: %s\n", s->faculty);
+            fprintf(fp, "Department: %s\n", s->department);
+            fprintf(fp, "GPA: %.2f\n", s->gpa);
+            fprintf(fp, "Date Created: %s\n", timestamp);
+            fclose(fp);
+            printf("Individual student record saved to: %s\n", filename);
+        }
+    }
+    else if (strcmp(type, "lecturer") == 0) {
+        Lecturer* l = (Lecturer*)data;
+        sprintf(filename, "lecturer_%s_%s.txt", l->id, timestamp);
+        FILE *fp = fopen(filename, "w");
+        if (fp) {
+            fprintf(fp, "=== LECTURER RECORD ===\n");
+            fprintf(fp, "ID: %s\n", l->id);
+            fprintf(fp, "Name: %s\n", l->name);
+            fprintf(fp, "Email: %s\n", l->email);
+            fprintf(fp, "Faculty: %s\n", l->faculty);
+            fprintf(fp, "Department: %s\n", l->department);
+            fprintf(fp, "Date Created: %s\n", timestamp);
+            fclose(fp);
+            printf("Individual lecturer record saved to: %s\n", filename);
+        }
+    }
+    else if (strcmp(type, "course") == 0) {
+        Course* c = (Course*)data;
+        sprintf(filename, "course_%s_%s.txt", c->code, timestamp);
+        FILE *fp = fopen(filename, "w");
+        if (fp) {
+            fprintf(fp, "=== COURSE RECORD ===\n");
+            fprintf(fp, "Code: %s\n", c->code);
+            fprintf(fp, "Name: %s\n", c->name);
+            fprintf(fp, "Credits: %d\n", c->credits);
+            fprintf(fp, "Lecturer ID: %s\n", c->lecturer_id);
+            fprintf(fp, "Faculty: %s\n", c->faculty);
+            fprintf(fp, "Department: %s\n", c->department);
+            fprintf(fp, "Date Created: %s\n", timestamp);
+            fclose(fp);
+            printf("Individual course record saved to: %s\n", filename);
+        }
+    }
+}
 
 // =================== FILE HANDLING HELPERS ===================
 
 // Student file helpers
+// Student file helpers
 int load_students(Student *arr, int max) {
-    FILE *fp = fopen(STUDENT_FILE, "rb");
+    FILE *fp = fopen(STUDENT_FILE, "r");
     if (!fp) return 0;
-    int n = fread(arr, sizeof(Student), max, fp);
+    int n = 0;
+    char line[MAX_LINE];
+    while (fgets(line, sizeof(line), fp) && n < max) {
+        sscanf(line, "%[^,],%[^,],%[^,],%[^,],%[^,],%f",
+               arr[n].id, arr[n].name, arr[n].email,
+               arr[n].faculty, arr[n].department, &arr[n].gpa);
+        n++;
+    }
     fclose(fp);
     return n;
 }
+
 void save_students(Student *arr, int n) {
-    FILE *fp = fopen(STUDENT_FILE, "wb");
+    FILE *fp = fopen(STUDENT_FILE, "w");
     if (!fp) return;
-    fwrite(arr, sizeof(Student), n, fp);
+    for (int i = 0; i < n; i++) {
+        fprintf(fp, "%s,%s,%s,%s,%s,%.2f\n",
+                arr[i].id, arr[i].name, arr[i].email,
+                arr[i].faculty, arr[i].department, arr[i].gpa);
+    }
     fclose(fp);
 }
+
 
 // Lecturer file helpers
+// Lecturer file helpers
 int load_lecturers(Lecturer *arr, int max) {
-    FILE *fp = fopen(LECTURER_FILE, "rb");
+    FILE *fp = fopen(LECTURER_FILE, "r");
     if (!fp) return 0;
-    int n = fread(arr, sizeof(Lecturer), max, fp);
+    int n = 0;
+    char line[MAX_LINE];
+    while (fgets(line, sizeof(line), fp) && n < max) {
+        sscanf(line, "%[^,],%[^,],%[^,],%[^,],%[^\n]",
+               arr[n].id, arr[n].name, arr[n].email,
+               arr[n].faculty, arr[n].department);
+        n++;
+    }
     fclose(fp);
     return n;
 }
+
 void save_lecturers(Lecturer *arr, int n) {
-    FILE *fp = fopen(LECTURER_FILE, "wb");
+    FILE *fp = fopen(LECTURER_FILE, "w");
     if (!fp) return;
-    fwrite(arr, sizeof(Lecturer), n, fp);
+    for (int i = 0; i < n; i++) {
+        fprintf(fp, "%s,%s,%s,%s,%s\n",
+                arr[i].id, arr[i].name, arr[i].email,
+                arr[i].faculty, arr[i].department);
+    }
     fclose(fp);
 }
 
+
+// Course file helpers
 // Course file helpers
 int load_courses(Course *arr, int max) {
-    FILE *fp = fopen(COURSE_FILE, "rb");
+    FILE *fp = fopen(COURSE_FILE, "r");
     if (!fp) return 0;
-    int n = fread(arr, sizeof(Course), max, fp);
+    int n = 0;
+    char line[MAX_LINE];
+    while (fgets(line, sizeof(line), fp) && n < max) {
+        sscanf(line, "%[^,],%[^,],%d,%[^,],%[^,],%[^\n]",
+               arr[n].code, arr[n].name, &arr[n].credits,
+               arr[n].lecturer_id, arr[n].faculty, arr[n].department);
+        n++;
+    }
     fclose(fp);
     return n;
 }
+
 void save_courses(Course *arr, int n) {
-    FILE *fp = fopen(COURSE_FILE, "wb");
+    FILE *fp = fopen(COURSE_FILE, "w");
     if (!fp) return;
-    fwrite(arr, sizeof(Course), n, fp);
+    for (int i = 0; i < n; i++) {
+        fprintf(fp, "%s,%s,%d,%s,%s,%s\n",
+                arr[i].code, arr[i].name, arr[i].credits,
+                arr[i].lecturer_id, arr[i].faculty, arr[i].department);
+    }
     fclose(fp);
 }
+
 
 // Faculty file helpers (text)
 int load_faculties(Faculty *arr, int max) {
@@ -282,34 +377,62 @@ void save_faculties(Faculty *arr, int n) {
 }
 
 // Grade file helpers
+// Grade file helpers
 int load_grades(Grade *arr, int max) {
-    FILE *fp = fopen(GRADE_FILE, "rb");
+    FILE *fp = fopen(GRADE_FILE, "r");
     if (!fp) return 0;
-    int n = fread(arr, sizeof(Grade), max, fp);
+    int n = 0;
+    char line[MAX_LINE];
+    while (fgets(line, sizeof(line), fp) && n < max) {
+        sscanf(line, "%[^,],%[^,],%d,%f,%c",
+               arr[n].student_id, arr[n].course_code,
+               &arr[n].semester, &arr[n].marks, &arr[n].grade);
+        n++;
+    }
     fclose(fp);
     return n;
 }
+
 void save_grades(Grade *arr, int n) {
-    FILE *fp = fopen(GRADE_FILE, "wb");
+    FILE *fp = fopen(GRADE_FILE, "w");
     if (!fp) return;
-    fwrite(arr, sizeof(Grade), n, fp);
+    for (int i = 0; i < n; i++) {
+        fprintf(fp, "%s,%s,%d,%.2f,%c\n",
+                arr[i].student_id, arr[i].course_code,
+                arr[i].semester, arr[i].marks, arr[i].grade);
+    }
     fclose(fp);
 }
 
+
+// Attendance file helpers
 // Attendance file helpers
 int load_attendance(Attendance *arr, int max) {
-    FILE *fp = fopen(ATTENDANCE_FILE, "rb");
+    FILE *fp = fopen(ATTENDANCE_FILE, "r");
     if (!fp) return 0;
-    int n = fread(arr, sizeof(Attendance), max, fp);
+    int n = 0;
+    char line[MAX_LINE];
+    while (fgets(line, sizeof(line), fp) && n < max) {
+        sscanf(line, "%[^,],%[^,],%[^,],%d",
+               arr[n].student_id, arr[n].course_code,
+               arr[n].date, &arr[n].present);
+        n++;
+    }
     fclose(fp);
     return n;
 }
+
 void save_attendance(Attendance *arr, int n) {
-    FILE *fp = fopen(ATTENDANCE_FILE, "wb");
+    FILE *fp = fopen(ATTENDANCE_FILE, "w");
     if (!fp) return;
-    fwrite(arr, sizeof(Attendance), n, fp);
+    for (int i = 0; i < n; i++) {
+        fprintf(fp, "%s,%s,%s,%d\n",
+                arr[i].student_id, arr[i].course_code,
+                arr[i].date, arr[i].present);
+    }
     fclose(fp);
 }
+
 
 // Notice file helpers (text)
 int load_notices(Notice *arr, int max) {
@@ -370,26 +493,22 @@ void login_panel(Role *role, char *user_id) {
         clear_screen();
         set_theme();
         printf("\n");
+        printf(" \033[1;31m - + - + - + - + - + - + - + - + - + - + - + - + - + - + - + - + - + - + - + - + - + - + - + - + - +\033[0m");
+        printf("\n\n");
+        // Main heading in green (ASCII art)
+        printf("\033[1;32m ##     ##    ##        ##    ########      ##     ##   ########   ########   ########   ######## \n");
+        printf("\033[1;32m ##     ##    ## #      ##       ##         ##     ##   ##         ##    ##   ##         ##        \n");
+        printf("\033[1;32m ##     ##    ##   #    ##       ##    ###  ##    ##    ########   ########   ########   ########\n");
+        printf("\033[1;32m ##     ##    ##     #  ##       ##           ## ##     ##         ##   ##          ##   ##     \n");
+        printf("\033[1;32m #########    ##       ###    ########          #       ########   ##    ##   ########   ######## \n");
+        // Bottom border line in red
+        printf(" \033[1;31m - + - + - + - + - + - + - + - + - + - + - + - + - + - + - + - + - + - + - + - + - + - + - + - + - + \033[0m");
+        printf("\n\n");
+        printf("\t\t\t\t|||==== University Management System ====|||\n");
         printf("\n");
+
+        printf("\t\t\t==== SOUTH EASTERN UNIVERSITY OF SRI LANKA (SEUSL) ====\n");
         printf("\n");
-        printf("\n");
-
-    printf(" \033[1;31m - + - + - + - + - + - + - + - + - + - + - + - + - + - + - + - + - + - + - + - + - + - + - + - + - +\033[0m");
-    printf("\n\n");
-
-    // Main heading in green (ASCII art)
-    printf("\033[1;32m ##     ##    ##        ##    ########     ##     ##   ########   ########   ########   ######## \n");
-    printf("\033[1;32m ##     ##    ## #      ##       ##        ##     ##   ##         ##    ##   ##         ##        \n");
-    printf("\033[1;32m ##     ##    ##   #    ##       ##         ##   ##    ########   ########   ########   ########\n");
-    printf("\033[1;32m ##     ##    ##     #  ##       ##          ## ##     ##         ##   ##          ##   ##     \n");
-    printf("\033[1;32m #########    ##       ###    ########         #       ########   ##    ##   ########   ######## \n");
-
-
-    // Bottom border line in red
-    printf(" \033[1;31m - + - + - + - + - + - + - + - + - + - + - + - + - + - + - + - + - + - + - + - + - + - + - + - + - + \033[0m");
-    printf("\n\n");
-
-        printf("==== University Management System ====\n");
         printf("Select Panel:\n");
         printf("1. Admin\n2. Student\n3. Lecturer\n4. Exit\n");
         reset_theme();
@@ -473,8 +592,10 @@ void add_student() {
     s.gpa = 0.0;
     students[n++] = s;
     save_students(students, n);
+    auto_save_entry("student", &s);  // NEW LINE ADDED
     printf("Student added.\n");
 }
+
 
 void edit_student() {
     Student students[MAX_STUDENTS];
@@ -518,24 +639,70 @@ void delete_student() {
 void view_students() {
     Student students[MAX_STUDENTS];
     int n = load_students(students, MAX_STUDENTS);
-    printf("ID\tName\tEmail\tFaculty\tDepartment\tGPA\n");
-    for (int i = 0; i < n; i++) {
-        printf("%s\t%s\t%s\t%s\t%s\t%.2f\n", students[i].id, students[i].name, students[i].email, students[i].faculty, students[i].department, students[i].gpa);
+
+    if (n == 0) {
+        printf("\n+--------------------------------------+\n");
+        printf("|          No students found!          |\n");
+        printf("+--------------------------------------+\n");
+        return;
     }
+
+    printf("\n+============+=======================+=========================+======================+======================+======================+\n");
+    printf("|                                                    STUDENT RECORDS                                                                       |\n");
+    printf("+============+=======================+=========================+======================+======================+======================+\n");
+    printf("| Student ID |         Name          |           Email         |        Faculty       |      Department      |          GPA         |\n");
+    printf("+============+=======================+=========================+======================+======================+======================+\n");
+
+    for (int i = 0; i < n; i++) {
+        printf("| %-10s | %-21s | %-23s | %-20s | %-20s |        %.2f        |\n",
+               students[i].id,
+               students[i].name,
+               students[i].email,
+               students[i].faculty,
+               students[i].department,
+               students[i].gpa);
+    }
+
+    printf("+============+=======================+=========================+======================+======================+======================+\n");
+    printf("Total Students: %d\n\n", n);
 }
 
 void search_student() {
     Student students[MAX_STUDENTS];
     int n = load_students(students, MAX_STUDENTS);
     char key[MAX_NAME];
+    int found = 0;
+
     input_string("Enter name or ID to search: ", key, MAX_NAME);
-    printf("ID\tName\tEmail\tFaculty\tDepartment\tGPA\n");
+
+    printf("\n+============+=======================+=========================+======================+======================+======================+\n");
+    printf("|                                                   SEARCH RESULTS                                                                         |\n");
+    printf("+============+=======================+=========================+======================+======================+======================+\n");
+    printf("| Student ID |         Name          |           Email         |        Faculty       |      Department      |          GPA         |\n");
+    printf("+============+=======================+=========================+======================+======================+======================+\n");
+
     for (int i = 0; i < n; i++) {
         if (strstr(students[i].name, key) || strstr(students[i].id, key)) {
-            printf("%s\t%s\t%s\t%s\t%s\t%.2f\n", students[i].id, students[i].name, students[i].email, students[i].faculty, students[i].department, students[i].gpa);
+            printf("| %-10s | %-21s | %-23s | %-20s | %-20s |        %.2f        |\n",
+                   students[i].id,
+                   students[i].name,
+                   students[i].email,
+                   students[i].faculty,
+                   students[i].department,
+                   students[i].gpa);
+            found++;
         }
     }
+
+    if (found == 0) {
+        printf("|                                                 No matching students found!                                                         |\n");
+    }
+
+    printf("+============+=======================+=========================+======================+======================+======================+\n");
+    printf("Search Results: %d student(s) found\n\n", found);
 }
+
+
 
 // =================== LECTURER MANAGEMENT ===================
 
@@ -560,8 +727,10 @@ void add_lecturer() {
     input_string("Enter Department: ", l.department, MAX_NAME);
     lecturers[n++] = l;
     save_lecturers(lecturers, n);
+    auto_save_entry("lecturer", &l);  // NEW LINE ADDED
     printf("Lecturer added.\n");
 }
+
 
 void edit_lecturer() {
     Lecturer lecturers[MAX_LECTURERS];
@@ -605,24 +774,68 @@ void delete_lecturer() {
 void view_lecturers() {
     Lecturer lecturers[MAX_LECTURERS];
     int n = load_lecturers(lecturers, MAX_LECTURERS);
-    printf("ID\tName\tEmail\tFaculty\tDepartment\n");
-    for (int i = 0; i < n; i++) {
-        printf("%s\t%s\t%s\t%s\t%s\n", lecturers[i].id, lecturers[i].name, lecturers[i].email, lecturers[i].faculty, lecturers[i].department);
+
+    if (n == 0) {
+        printf("\n+--------------------------------------+\n");
+        printf("|          No lecturers found!         |\n");
+        printf("+--------------------------------------+\n");
+        return;
     }
+
+    printf("\n+============+=======================+=========================+======================+======================+\n");
+    printf("|                                            LECTURER RECORDS                                                |\n");
+    printf("+============+=======================+=========================+======================+======================+\n");
+    printf("| Lecturer ID|         Name          |           Email         |        Faculty       |      Department      |\n");
+    printf("+============+=======================+=========================+======================+======================+\n");
+
+    for (int i = 0; i < n; i++) {
+        printf("| %-10s | %-21s | %-23s | %-20s | %-20s |\n",
+               lecturers[i].id,
+               lecturers[i].name,
+               lecturers[i].email,
+               lecturers[i].faculty,
+               lecturers[i].department);
+    }
+
+    printf("+============+=======================+=========================+======================+======================+\n");
+    printf("Total Lecturers: %d\n\n", n);
 }
+
 
 void search_lecturer() {
     Lecturer lecturers[MAX_LECTURERS];
     int n = load_lecturers(lecturers, MAX_LECTURERS);
     char key[MAX_NAME];
+    int found = 0;
+
     input_string("Enter name or ID to search: ", key, MAX_NAME);
-    printf("ID\tName\tEmail\tFaculty\tDepartment\n");
+
+    printf("\n+============+=======================+=========================+======================+======================+\n");
+    printf("|                                              SEARCH RESULTS                                                 |\n");
+    printf("+============+=======================+=========================+======================+======================+\n");
+    printf("| Lecturer ID|         Name          |           Email         |        Faculty       |      Department      |\n");
+    printf("+============+=======================+=========================+======================+======================+\n");
+
     for (int i = 0; i < n; i++) {
         if (strstr(lecturers[i].name, key) || strstr(lecturers[i].id, key)) {
-            printf("%s\t%s\t%s\t%s\t%s\n", lecturers[i].id, lecturers[i].name, lecturers[i].email, lecturers[i].faculty, lecturers[i].department);
+            printf("| %-10s | %-21s | %-23s | %-20s | %-20s |\n",
+                   lecturers[i].id,
+                   lecturers[i].name,
+                   lecturers[i].email,
+                   lecturers[i].faculty,
+                   lecturers[i].department);
+            found++;
         }
     }
+
+    if (found == 0) {
+        printf("|                                      No matching lecturers found!                                         |\n");
+    }
+
+    printf("+============+=======================+=========================+======================+======================+\n");
+    printf("Search Results: %d lecturer(s) found\n\n", found);
 }
+
 
 // =================== FACULTY MANAGEMENT ===================
 
@@ -650,6 +863,8 @@ void add_faculty() {
     printf("Faculty added.\n");
 }
 
+
+
 // =================== COURSE MANAGEMENT ===================
 
 void add_course() {
@@ -674,8 +889,10 @@ void add_course() {
     input_string("Enter Department: ", c.department, MAX_NAME);
     courses[n++] = c;
     save_courses(courses, n);
+    auto_save_entry("course", &c);  // NEW LINE ADDED
     printf("Course added.\n");
 }
+
 
 void edit_course() {
     Course courses[MAX_COURSES];
@@ -720,24 +937,70 @@ void delete_course() {
 void view_courses() {
     Course courses[MAX_COURSES];
     int n = load_courses(courses, MAX_COURSES);
-    printf("Code\tName\tCredits\tLecturer\tFaculty\tDepartment\n");
-    for (int i = 0; i < n; i++) {
-        printf("%s\t%s\t%d\t%s\t%s\t%s\n", courses[i].code, courses[i].name, courses[i].credits, courses[i].lecturer_id, courses[i].faculty, courses[i].department);
+
+    if (n == 0) {
+        printf("\n+--------------------------------------+\n");
+        printf("|           No courses found!          |\n");
+        printf("+--------------------------------------+\n");
+        return;
     }
+
+    printf("\n+============+=======================+==========+=============+======================+======================+\n");
+    printf("|                                                 COURSE RECORDS                                                |\n");
+    printf("+============+=======================+==========+=============+======================+======================+\n");
+    printf("| Course Code|      Course Name      | Credits  | Lecturer ID |        Faculty       |      Department      |\n");
+    printf("+============+=======================+==========+=============+======================+======================+\n");
+
+    for (int i = 0; i < n; i++) {
+        printf("| %-10s | %-21s |    %2d    | %-11s | %-20s | %-20s |\n",
+               courses[i].code,
+               courses[i].name,
+               courses[i].credits,
+               courses[i].lecturer_id,
+               courses[i].faculty,
+               courses[i].department);
+    }
+
+    printf("+============+=======================+==========+=============+======================+======================+\n");
+    printf("Total Courses: %d\n\n", n);
 }
+
 
 void search_course() {
     Course courses[MAX_COURSES];
     int n = load_courses(courses, MAX_COURSES);
     char key[MAX_NAME];
-    input_string("Enter name or code to search: ", key, MAX_NAME);
-    printf("Code\tName\tCredits\tLecturer\tFaculty\tDepartment\n");
+    int found = 0;
+
+    input_string("Enter course name or code to search: ", key, MAX_NAME);
+
+    printf("\n+============+=======================+==========+=============+======================+======================+\n");
+    printf("|                                                SEARCH RESULTS                                                 |\n");
+    printf("+============+=======================+==========+=============+======================+======================+\n");
+    printf("| Course Code|      Course Name      | Credits  | Lecturer ID |        Faculty       |      Department      |\n");
+    printf("+============+=======================+==========+=============+======================+======================+\n");
+
     for (int i = 0; i < n; i++) {
         if (strstr(courses[i].name, key) || strstr(courses[i].code, key)) {
-            printf("%s\t%s\t%d\t%s\t%s\t%s\n", courses[i].code, courses[i].name, courses[i].credits, courses[i].lecturer_id, courses[i].faculty, courses[i].department);
+            printf("| %-10s | %-21s |    %2d    | %-11s | %-20s | %-20s |\n",
+                   courses[i].code,
+                   courses[i].name,
+                   courses[i].credits,
+                   courses[i].lecturer_id,
+                   courses[i].faculty,
+                   courses[i].department);
+            found++;
         }
     }
+
+    if (found == 0) {
+        printf("|                                        No matching courses found!                                          |\n");
+    }
+
+    printf("+============+=======================+==========+=============+======================+======================+\n");
+    printf("Search Results: %d course(s) found\n\n", found);
 }
+
 
 // =================== MARKS & GRADE CALCULATION ===================
 
@@ -958,17 +1221,34 @@ void mark_attendance() {
 }
 
 void view_attendance() {
-    Attendance att[MAX_ATTENDANCE];
-    int n = load_attendance(att, MAX_ATTENDANCE);
-    char student_id[MAX_ID];
-    input_string("Enter Student ID: ", student_id, MAX_ID);
-    printf("Course\tDate\tPresent\n");
-    for (int i = 0; i < n; i++) {
-        if (strcmp(att[i].student_id, student_id) == 0) {
-            printf("%s\t%s\t%s\n", att[i].course_code, att[i].date, att[i].present ? "Yes" : "No");
-        }
+    Attendance attendance[MAX_ATTENDANCE];
+    int n = load_attendance(attendance, MAX_ATTENDANCE);
+
+    if (n == 0) {
+        printf("\n+--------------------------------------+\n");
+        printf("|         No attendance found!         |\n");
+        printf("+--------------------------------------+\n");
+        return;
     }
+
+    printf("\n+============+=============+=============+==========+\n");
+    printf("|                  ATTENDANCE RECORDS                |\n");
+    printf("+============+=============+=============+==========+\n");
+    printf("| Student ID | Course Code |    Date     | Present  |\n");
+    printf("+============+=============+=============+==========+\n");
+
+    for (int i = 0; i < n; i++) {
+        printf("| %-10s | %-11s | %-11s |    %s    |\n",
+               attendance[i].student_id,
+               attendance[i].course_code,
+               attendance[i].date,
+               attendance[i].present ? "Yes" : "No");
+    }
+
+    printf("+============+=============+=============+==========+\n");
+    printf("Total Attendance Records: %d\n\n", n);
 }
+
 
 // =================== SEARCH & FILTER ENGINE ===================
 
