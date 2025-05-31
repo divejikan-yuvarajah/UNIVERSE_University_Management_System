@@ -1,8 +1,3 @@
-/*
-    University Management System in C
-
-*/
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -59,6 +54,9 @@
 #define ANSI_DARK_FG "\033[97m"
 #define ANSI_LIGHT_BG "\033[107m"
 #define ANSI_LIGHT_FG "\033[30m"
+
+
+
 
 typedef enum { ROLE_ADMIN, ROLE_STUDENT, ROLE_LECTURER, ROLE_NONE } Role;
 
@@ -130,6 +128,10 @@ void caesar_encrypt(char *str, int key) {
 void caesar_decrypt(char *str, int key) {
     caesar_encrypt(str, 26 - key);
 }
+
+void generate_enhanced_transcript(const char *student_id);
+void student_transcript_menu(const char *student_id);
+
 
 // Utility: Clear screen
 void clear_screen() {
@@ -493,30 +495,30 @@ void login_panel(Role *role, char *user_id) {
         clear_screen();
         set_theme();
         printf("\n");
-        printf(" \033[1;31m - + - + - + - + - + - + - + - + - + - + - + - + - + - + - + - + - + - + - + - + - + - + - + - + - +\033[0m");
+        printf(" \033[1;31m \t- + - + - + - + - + - + - + - + - + - + - + - + - + - + - + - + - + - + - + - + - + - + - + - + - +- + - + - + - + - + - +\033[0m");
         printf("\n\n");
         // Main heading in green (ASCII art)
-        printf("\033[1;32m ##     ##    ##        ##    ########      ##     ##   ########   ########   ########   ######## \n");
-        printf("\033[1;32m ##     ##    ## #      ##       ##         ##     ##   ##         ##    ##   ##         ##        \n");
-        printf("\033[1;32m ##     ##    ##   #    ##       ##    ###  ##    ##    ########   ########   ########   ########\n");
-        printf("\033[1;32m ##     ##    ##     #  ##       ##           ## ##     ##         ##   ##          ##   ##     \n");
-        printf("\033[1;32m #########    ##       ###    ########          #       ########   ##    ##   ########   ######## \n");
+        printf("\033[1;32m \t\t\t\t##     ##    ##        ##    ########      ##     ##   ########   ########   ########   ######## \n");
+        printf("\033[1;32m \t\t\t\t##     ##    ## #      ##       ##         ##     ##   ##         ##    ##   ##         ##        \n");
+        printf("\033[1;32m \t\t\t\t##     ##    ##   #    ##       ##    ###  ##    ##    ########   ########   ########   ########   \n");
+        printf("\033[1;32m \t\t\t\t##     ##    ##     #  ##       ##           ## ##     ##         ##   ##          ##   ##         \n");
+        printf("\033[1;32m \t\t\t\t#########    ##       ###    ########          #       ########   ##    ##   ########   ######## \n");
         // Bottom border line in red
-        printf(" \033[1;31m - + - + - + - + - + - + - + - + - + - + - + - + - + - + - + - + - + - + - + - + - + - + - + - + - + \033[0m");
+        printf(" \033[1;31m \t- + - + - + - + - + - + - + - + - + - + - + - + - + - + - + - + - + - + - + - + - + - + - + - + - +- + - + - + - + - + - +  \033[0m");
         printf("\n\n");
-        printf("\t\t\t\t|||==== University Management System ====|||\n");
+        printf("\t\t\t\t\t\t\t|||==== University Management System ====|||\n");
         printf("\n");
 
-        printf("\t\t\t==== SOUTH EASTERN UNIVERSITY OF SRI LANKA (SEUSL) ====\n");
+        printf("\t\t\t\t\t\t***==== SOUTH EASTERN UNIVERSITY OF SRI LANKA (SEUSL) ====***\n");
         printf("\n");
-        printf("Select Panel:\n");
-        printf("1. Admin\n2. Student\n3. Lecturer\n4. Exit\n");
+        printf("\033[1;33m Select the Panel:\n\n");
+        printf("1. Admin Section\n2. Student Section\n3. Lecturer Section\n4. Exit\n\n");
         reset_theme();
-        panel = input_int("Enter choice: ", 1, 4);
+        panel = input_int("Enter Your choice: ", 1, 4);
         if (panel == 4) exit(0);
 
-        input_string("Enter ID: ", id, MAX_ID);
-        input_string("Enter Password: ", pass, MAX_PASSWORD);
+        input_string("Enter Your ID: ", id, MAX_ID);
+        input_string("Enter Your Password: ", pass, MAX_PASSWORD);
 
         Role r;
         if (panel == 1 && check_credentials(id, pass, &r) && r == ROLE_ADMIN) {
@@ -945,14 +947,14 @@ void view_courses() {
         return;
     }
 
-    printf("\n+============+=======================+==========+=============+======================+======================+\n");
-    printf("|                                                 COURSE RECORDS                                                |\n");
-    printf("+============+=======================+==========+=============+======================+======================+\n");
-    printf("| Course Code|      Course Name      | Credits  | Lecturer ID |        Faculty       |      Department      |\n");
-    printf("+============+=======================+==========+=============+======================+======================+\n");
+    printf("\n+============+========================+===========+==============+======================+======================+\n");
+    printf("|                                                 COURSE RECORDS                                                 |\n");
+    printf("+==============+========================+===========+==============+======================+======================+\n");
+    printf("|  Course Code |      Course Name       | Credits   | Lecturer ID  |        Faculty       |      Department      |\n");
+    printf("+==============+========================+===========+==============+======================+======================+\n");
 
     for (int i = 0; i < n; i++) {
-        printf("| %-10s | %-21s |    %2d    | %-11s | %-20s | %-20s |\n",
+        printf("| %-10s | %-23s |    %2d    | %-12s | %-21s | %-21s |\n",
                courses[i].code,
                courses[i].name,
                courses[i].credits,
@@ -961,7 +963,7 @@ void view_courses() {
                courses[i].department);
     }
 
-    printf("+============+=======================+==========+=============+======================+======================+\n");
+    printf("+============+===========================+===========+==============+======================+======================+\n");
     printf("Total Courses: %d\n\n", n);
 }
 
@@ -1005,11 +1007,11 @@ void search_course() {
 // =================== MARKS & GRADE CALCULATION ===================
 
 char calc_grade(float marks) {
-    if (marks >= 90) return 'A';
-    if (marks >= 80) return 'B';
-    if (marks >= 70) return 'C';
-    if (marks >= 60) return 'D';
-    if (marks >= 50) return 'E';
+    if (marks >= 80) return 'A';
+    if (marks >= 70) return 'B';
+    if (marks >= 60) return 'C';
+    if (marks >= 50) return 'D';
+    if (marks >= 35) return 'E';
     return 'F';
 }
 
@@ -1117,11 +1119,14 @@ void update_student_gpa(const char *student_id) {
 
 // =================== TRANSCRIPT GENERATOR ===================
 
-void generate_transcript(const char *student_id) {
+// Enhanced transcript generator function
+void generate_enhanced_transcript(const char *student_id) {
     Student students[MAX_STUDENTS];
     int n = load_students(students, MAX_STUDENTS);
     int found = 0;
     Student s;
+
+    // Find student
     for (int i = 0; i < n; i++) {
         if (strcmp(students[i].id, student_id) == 0) {
             s = students[i];
@@ -1129,47 +1134,192 @@ void generate_transcript(const char *student_id) {
             break;
         }
     }
+
     if (!found) {
         printf("Student not found.\n");
         return;
     }
+
+    // Get semester input from user
+    int semester = input_int("Enter Semester: ", 1, 12);
+
     Grade grades[MAX_GRADES];
     int m = load_grades(grades, MAX_GRADES);
     Course courses[MAX_COURSES];
     int k = load_courses(courses, MAX_COURSES);
 
     char filename[64];
-    sprintf(filename, "transcript_%s.txt", student_id);
+    sprintf(filename, "transcript_%s_sem%d.txt", student_id, semester);
     FILE *fp = fopen(filename, "w");
     if (!fp) {
         printf("Failed to create transcript file.\n");
         return;
     }
-    printf("==== Transcript for %s (%s) ====\n", s.name, s.id);
-    fprintf(fp, "==== Transcript for %s (%s) ====\n", s.name, s.id);
-    printf("Faculty: %s\tDepartment: %s\n", s.faculty, s.department);
-    fprintf(fp, "Faculty: %s\tDepartment: %s\n", s.faculty, s.department);
-    printf("Course\tMarks\tGrade\n");
-    fprintf(fp, "Course\tMarks\tGrade\n");
+
+    // Print and write transcript with complete box outline
+    printf("\n");
+    printf("+=======================================================+\n");
+    printf("|                                                       |\n");
+    printf("|    South Eastern University Of Sri Lanka              |\n");
+    printf("|           Oluvil park, Sri Lanka.                     |\n");
+    printf("|                                                       |\n");
+    printf("+=======================================================+\n");
+    printf("|                                                       |\n");
+    printf("| ID No: %-42s |\n", s.id);
+    printf("| Name: %-43s |\n", s.name);
+    printf("| Batch Year: %-38s |\n", s.department);
+    printf("| Semester: %-40d |\n", semester);
+    printf("|                                                       |\n");
+    printf("|     +============+===============+=======+            |\n");
+    printf("|     |  Subject   | Results/Mark  |  GPA  |            |\n");
+    printf("|     +============+===============+=======+            |\n");
+
+    fprintf(fp, "+=======================================================+\n");
+    fprintf(fp, "|                                                       |\n");
+    fprintf(fp, "|    South Eastern University Of Sri Lanka              |\n");
+    fprintf(fp, "|           Oluvil park, Sri Lanka.                     |\n");
+    fprintf(fp, "|                                                       |\n");
+    fprintf(fp, "+=======================================================+\n");
+    fprintf(fp, "|                                                       |\n");
+    fprintf(fp, "| ID No: %-42s |\n", s.id);
+    fprintf(fp, "| Name: %-43s |\n", s.name);
+    fprintf(fp, "| Batch Year: %-38s |\n", s.department);
+    fprintf(fp, "| Semester: %-40d |\n", semester);
+    fprintf(fp, "|                                                       |\n");
+    fprintf(fp, "|     +============+===============+=======+            |\n");
+    fprintf(fp, "|     |  Subject   | Results/Mark  |  GPA  |            |\n");
+    fprintf(fp, "|     +============+===============+=======+            |\n");
+
+    // Find and display grades for the specific semester
+    float total_points = 0;
+    int total_credits = 0;
+    int course_count = 0;
+
     for (int i = 0; i < m; i++) {
-        if (strcmp(grades[i].student_id, student_id) == 0) {
-            char cname[MAX_NAME] = "";
+        if (strcmp(grades[i].student_id, student_id) == 0 && grades[i].semester == semester) {
+            // Find course details
+            int credits = 0;
+
             for (int j = 0; j < k; j++) {
                 if (strcmp(courses[j].code, grades[i].course_code) == 0) {
-                    strcpy(cname, courses[j].name);
+                    credits = courses[j].credits;
                     break;
                 }
             }
-            printf("%s (%s)\t%.2f\t%c\n", cname, grades[i].course_code, grades[i].marks, grades[i].grade);
-            fprintf(fp, "%s (%s)\t%.2f\t%c\n", cname, grades[i].course_code, grades[i].marks, grades[i].grade);
+
+            // Calculate grade points
+            float grade_point = 0;
+            switch (grades[i].grade) {
+                case 'A': grade_point = 4.0; break;
+                case 'B': grade_point = 3.0; break;
+                case 'C': grade_point = 2.0; break;
+                case 'D': grade_point = 1.0; break;
+                case 'E': grade_point = 0.5; break;
+                default: grade_point = 0.0;
+            }
+
+            // Display course information with box outline
+            printf("|     | %-10s | %6.2f / %c    | %4.2f  |            |\n",
+                   grades[i].course_code, grades[i].marks, grades[i].grade, grade_point);
+
+            fprintf(fp, "|     | %-10s | %6.2f / %c    | %4.2f  |            |\n",
+                    grades[i].course_code, grades[i].marks, grades[i].grade, grade_point);
+
+            total_points += grade_point * credits;
+            total_credits += credits;
+            course_count++;
         }
     }
-    float gpa = compute_gpa(student_id);
-    printf("GPA: %.2f\n", gpa);
-    fprintf(fp, "GPA: %.2f\n", gpa);
+
+    printf("|     +============+===============+=======+            |\n");
+    printf("|                                                       |\n");
+
+    fprintf(fp, "|     +============+===============+=======+            |\n");
+    fprintf(fp, "|                                                       |\n");
+
+    // Calculate and display final GPA with box outline
+    float final_gpa = (total_credits > 0) ? total_points / total_credits : 0.0;
+
+    printf("| Final Total GPA: %-28.2f |\n", final_gpa);
+    printf("| Courses Completed: %-30d |\n", course_count);
+    printf("| Total Credits: %-34d |\n", total_credits);
+    printf("|                                                       |\n");
+
+    fprintf(fp, "| Final Total GPA: %-28.2f |\n", final_gpa);
+    fprintf(fp, "| Courses Completed: %-30d |\n", course_count);
+    fprintf(fp, "| Total Credits: %-34d |\n", total_credits);
+    fprintf(fp, "|                                                       |\n");
+
+    // Add generation date with box outline
+    char date[20];
+    get_current_date(date);
+    printf("| Generated on: %-35s |\n", date);
+    printf("|                                                       |\n");
+    printf("| Transcript saved to: %-29s |\n", filename);
+    printf("+=======================================================+\n");
+
+    fprintf(fp, "| Generated on: %-35s |\n", date);
+    fprintf(fp, "|                                                       |\n");
+    fprintf(fp, "+=======================================================+\n");
+
     fclose(fp);
-    printf("Transcript saved to %s\n", filename);
 }
+
+// Function to be called from student menu
+void student_transcript_menu(const char *student_id) {
+    printf("1. Generate Semester Transcript\n");
+    printf("2. Generate Complete Transcript\n");
+    int choice = input_int("Enter choice: ", 1, 2);
+
+    if (choice == 1) {
+        generate_enhanced_transcript(student_id);
+    } else {
+        generate_transcript(student_id); // Your existing function
+    }
+}
+
+void generate_transcript(const char *student_id) {
+    Student students[MAX_STUDENTS];
+    int n = load_students(students, MAX_STUDENTS);
+    int found = 0;
+    Student s;
+
+    // Find student
+    for (int i = 0; i < n; i++) {
+        if (strcmp(students[i].id, student_id) == 0) {
+            s = students[i];
+            found = 1;
+            break;
+        }
+    }
+
+    if (!found) {
+        printf("Student not found.\n");
+        return;
+    }
+
+    Grade grades[MAX_GRADES];
+    int m = load_grades(grades, MAX_GRADES);
+
+    printf("\n=== COMPLETE TRANSCRIPT ===\n");
+    printf("Student: %s (%s)\n", s.name, s.id);
+    printf("Faculty: %s\n", s.faculty);
+    printf("Department: %s\n", s.department);
+    printf("Overall GPA: %.2f\n\n", s.gpa);
+
+    printf("Course\t\tSemester\tMarks\tGrade\n");
+    printf("----------------------------------------\n");
+
+    for (int i = 0; i < m; i++) {
+        if (strcmp(grades[i].student_id, student_id) == 0) {
+            printf("%-12s\t%d\t\t%.2f\t%c\n",
+                   grades[i].course_code, grades[i].semester,
+                   grades[i].marks, grades[i].grade);
+        }
+    }
+    printf("========================================\n");
+}
+
 
 // =================== PROGRESS CHART ===================
 
@@ -1420,11 +1570,19 @@ void admin_menu() {
                 }
                 break;
             case 5:
-                printf("1. Enter Marks\n0. Back\n");
-                switch (input_int("Enter choice: ", 0, 1)) {
-                    case 1: enter_marks(); break;
+                printf("1. Enter Marks\n2. Generate Student Transcript\n0. Back\n");
+                switch (input_int("Enter choice: ", 0, 2)) {
+
+                    case 1: enter_marks();
+                     break;
+                    case 2: {
+                        char student_id[MAX_ID];
+                        input_string("Enter Student ID: ", student_id, MAX_ID);
+                        generate_enhanced_transcript(student_id);
+                    } break;
                 }
                 break;
+
             case 6:
                 admin_analytics();
                 break;
@@ -1485,8 +1643,9 @@ void student_menu(const char *student_id) {
                 printf("GPA: %.2f\n", compute_gpa(student_id));
                 break;
             case 5:
-                generate_transcript(student_id);
+                student_transcript_menu(student_id);
                 break;
+
             case 6:
                 show_progress_chart(student_id);
                 break;
