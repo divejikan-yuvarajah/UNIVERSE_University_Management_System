@@ -1,0 +1,8 @@
+=== STUDENT RECORD ===
+ID: 0017
+Name: Vijay
+Email: vijay@gmail.com
+Faculty: Arts
+Department: Geography
+GPA: 0.00
+Date Created: 2025-05-29

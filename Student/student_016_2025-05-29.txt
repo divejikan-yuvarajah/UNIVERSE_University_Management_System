@@ -1,0 +1,8 @@
+=== STUDENT RECORD ===
+ID: 016
+Name: Sanojan
+Email: sanojan@gmail.com
+Faculty: Technology
+Department: ICT
+GPA: 0.00
+Date Created: 2025-05-29

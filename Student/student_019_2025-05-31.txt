@@ -1,0 +1,8 @@
+=== STUDENT RECORD ===
+ID: 019
+Name: Jeyathukshan
+Email: jeyathu@gmail.com
+Faculty: Technology
+Department: ICT
+GPA: 0.00
+Date Created: 2025-05-31
